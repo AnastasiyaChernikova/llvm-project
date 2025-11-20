@@ -32,6 +32,11 @@ public:
 
 private:
   const bool StrictMode;
+  // For simple detection of const T* -> (void*) -> T* conversions, we store
+  // the locations of sub-expressions and the locations of VarDecls initialized
+  // by such casts. SourceLocation can be safely stored between check() calls.
+  llvm::SmallVector<clang::SourceLocation, 8> RecordedVoidCastLocs;
+  llvm::SmallVector<clang::SourceLocation, 8> RecordedVoidVarLocs;
 };
 
 } // namespace clang::tidy::cppcoreguidelines
